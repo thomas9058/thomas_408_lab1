@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 QUnit.module('main.js tests', function() {
 
+    /* Removed
     QUnit.test('helloWorld should print Hello World to the console', function(assert) {
         //Arrange
         const consoleSpy = sinon.spy(console, 'log');
@@ -12,6 +13,22 @@ QUnit.module('main.js tests', function() {
         //Assert
         assert.ok(consoleSpy.calledWith('Hello World'), 'console.log should be called with Hello World');
         consoleSpy.restore();
+    });
+    */ 
+
+    // Test for alert
+    QUnit.test('helloWorld should alert "Hello World?"', function(assert) {
+        if (!('alert' in globalThis)) globalThis.alert = () => {};
+        const alertStub = sinon.stub(globalThis, 'alert');
+      
+        helloWorld();
+      
+        assert.ok(alertStub.calledOnce, 'alert should be called once');
+        assert.ok(alertStub.calledWith('Hello World?'),
+                  'alert should be called with "Hello World?"');
+      
+        alertStub.restore();
+        delete globalThis.alert;
     });
 
     QUnit.test('add should return the sum of two numbers', function(assert) {
